@@ -6,5 +6,5 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
-import com.example.sky.Splash
+import com.example.sky.ui.screens.JournalScreen
 
