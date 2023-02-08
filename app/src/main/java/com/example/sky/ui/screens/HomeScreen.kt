@@ -24,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -84,7 +85,7 @@ fun HomeScreen(
         content = {
             Column {
                 it
-                Banner("Morning")
+                Banner("Afternoon")
                 InspirationCard()
                 LazyColumn {
                     items(homeUiState) { agenda ->
@@ -315,10 +316,21 @@ fun BannerImage(timeOfDay: String) {
 
 @Composable
 fun BannerText(timeOfDay: String) {
-    Text(
-        text = "Good $timeOfDay Claire", color = Color.White,
-        fontSize = 50.sp,
-        fontFamily = FontFamily.Cursive,
-        fontWeight = FontWeight.Black
-    )
+    if (timeOfDay == "Morning") {
+        Text(
+            text = "Good $timeOfDay Claire", color = Color.Black,
+            fontSize = 50.sp,
+            fontFamily = FontFamily.Cursive,
+            fontWeight = FontWeight.Black,
+            textAlign = TextAlign.Center
+        )
+    } else {
+        Text(
+            text = "Good $timeOfDay Claire", color = Color.White,
+            fontSize = 50.sp,
+            fontFamily = FontFamily.Cursive,
+            fontWeight = FontWeight.Black,
+            textAlign = TextAlign.Center
+        )
+    }
 }
