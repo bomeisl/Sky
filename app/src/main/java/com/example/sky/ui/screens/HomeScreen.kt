@@ -135,7 +135,7 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                Text("Where to?", modifier = Modifier.padding(16.dp), fontFamily = FontFamily.Cursive, fontSize = 30.sp)
+                Text(  "Where to?", modifier = Modifier.padding(16.dp), fontFamily = FontFamily.Cursive, fontSize = 30.sp)
                 
             }
 
@@ -145,7 +145,9 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Image(painter = painterResource(id = R.drawable.baseline_menu_book_24), "")
-                Text(text = "Claire's Journal", modifier = Modifier.padding(16.dp))
+                TextButton({ navController.navigate("journal") }) {
+                       Text(text = "Claire's Journal", modifier = Modifier.padding(16.dp))
+                }
             }
 
             Divider()
@@ -154,7 +156,9 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Image(painter = painterResource(id = R.drawable.baseline_calendar_month_24), "")
-                Text(text = "Schedule Planner", modifier = Modifier.padding(16.dp))
+                TextButton({ navController.navigate("big_picture") }) {
+                    Text(text = "Schedule View", modifier = Modifier.padding(16.dp))
+                }
             }
 
             Divider()
@@ -163,7 +167,9 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.Center
             ) {
                 Image(painter = painterResource(id = R.drawable.baseline_downhill_skiing_24), "")
-                Text(text = "Fun Stuff To Do", modifier = Modifier.padding(16.dp))
+                TextButton({ navController.navigate("recommended") }) {
+                    Text(text = "Fun Suggestions", modifier = Modifier.padding(16.dp))
+                }
             }
 
 

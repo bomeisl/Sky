@@ -30,7 +30,7 @@ fun JournalScreen(navController: NavController) {
             colors = TextFieldDefaults.textFieldColors(textColor = Color.Black, backgroundColor = Color.LightGray,
                 focusedIndicatorColor = Color.Transparent, unfocusedIndicatorColor = Color.Transparent),
             placeholder = {
-                Text(text = "Search scheduled activities",
+                Text(text = "Search journal entries",
                     fontFamily = FontFamily.Default,
                     fontWeight = FontWeight.Black,
                     fontSize = 20.sp
