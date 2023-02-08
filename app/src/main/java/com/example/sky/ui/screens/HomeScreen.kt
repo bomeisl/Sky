@@ -147,6 +147,24 @@ fun HomeScreen(
                 Text(text = "Claire's Journal", modifier = Modifier.padding(16.dp))
             }
 
+            Divider()
+            Row(modifier = Modifier.padding(10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Image(painter = painterResource(id = R.drawable.baseline_calendar_month_24), "")
+                Text(text = "Schedule Planner", modifier = Modifier.padding(16.dp))
+            }
+
+            Divider()
+            Row(modifier = Modifier.padding(10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
+            ) {
+                Image(painter = painterResource(id = R.drawable.baseline_downhill_skiing_24), "")
+                Text(text = "Fun Stuff To Do", modifier = Modifier.padding(16.dp))
+            }
+
 
 
         },

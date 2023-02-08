@@ -1,5 +1,7 @@
 package com.example.sky.ui.screens
 
+import android.content.Context
+import android.media.MediaRecorder
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.Icon
@@ -15,6 +17,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+
 
 @Composable
 fun JournalScreen(navController: NavController) {
@@ -37,4 +40,10 @@ fun JournalScreen(navController: NavController) {
                 .fillMaxWidth()
         )
     }
+    VoiceRecorder()
+}
+
+@Composable
+fun VoiceRecorder() {
+
 }

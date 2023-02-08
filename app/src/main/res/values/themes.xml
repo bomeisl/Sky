@@ -3,8 +3,8 @@
 
     <style name="Theme.Sky" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:statusBarColor">@color/purple_700</item>
-        <item name="android:windowSplashScreenBackground">@color/white</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_logo</item>
+        <item name="android:windowSplashScreenBackground">#80000000</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/sky_logo_9</item>
         <item name="android:windowSplashScreenIconBackgroundColor">#80000000</item>
     </style>
 

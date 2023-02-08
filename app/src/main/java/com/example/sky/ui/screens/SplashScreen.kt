@@ -7,7 +7,6 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -22,7 +21,7 @@ fun SplashScreen(navController: NavHostController) {
             .fillMaxSize()
             .background(MaterialTheme.colors.primary)
     ) {
-        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.drawable.sky_logo))
+        val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.drawable.sky_logo_9))
         val logoAnimationState =
             animateLottieCompositionAsState(composition = composition)
         LottieAnimation(
