@@ -1,27 +1,28 @@
 package com.example.sky.viewModels
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import android.view.View
+import androidx.lifecycle.*
 import com.example.sky.data.databases.schedule.ScheduleEntity
 import com.example.sky.data.repositories.ScheduleRepository
 import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
-class ScheduleViewModel(private val scheduleRepository: ScheduleRepository): ViewModel() {
+class ScheduleViewModel(private val repository: ScheduleRepository): ViewModel() {
 
-    companion object {
-        private const val TIMEOUT_MILLIS = 5_000L
+    val allEvents: LiveData<List<ScheduleEntity>> = repository.allEvents.asLiveData()
+
+    fun insert(event: ScheduleEntity) = viewModelScope.launch {
+        repository.insert(event)
     }
 
-    data class ScheduleUiState(val eventList: List<ScheduleEntity> = listOf())
-
-    val scheduleUiState: StateFlow<ScheduleUiState> =
-        scheduleRepository.getAllEventsStream().map { ScheduleUiState(it) }
-            .stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-                initialValue = ScheduleUiState()
-            )
-
-
+    class EventViewModelFactory(private val repository: ScheduleRepository): ViewModelProvider.Factory {
+        override fun<T: ViewModel> create(modelClass: Class<T>): T {
+            if (modelClass.isAssignableFrom(ScheduleViewModel::class.java)) {
+                @Suppress("UNCHECKED_CAST")
+                return ScheduleViewModel(repository) as T
+            }
+            throw IllegalArgumentException("Unknown ViewModel Class")
+        }
+    }
 
 }

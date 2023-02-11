@@ -1,73 +1,41 @@
 package com.example.sky.ui.screens
 
-import android.app.TimePickerDialog
 import android.graphics.fonts.FontStyle
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import com.example.sky.R
 import com.example.sky.data.databases.schedule.ScheduleEntity
-import com.example.sky.ui.AgendaItem
 import com.example.sky.ui.navigation.FloatActionButton
-import com.example.sky.ui.navigation.LowerNavBar
-import com.example.sky.ui.navigation.UpperAppBar
 import com.example.sky.viewModels.ScheduleViewModel
-import java.util.*
 
 @Composable
 fun ScheduleScreen(
-    navController: NavController,
-    viewmodel: ScheduleViewModel = viewModel()
+    navController: NavHostController,
+    //viewmodel: ScheduleViewModel = viewModel()
 ) {
-    val scheduleUiState by viewmodel.scheduleUiState.collectAsState()
-    val scaffoldState: ScaffoldState = rememberScaffoldState()
-    Scaffold(
-        modifier = Modifier,
-        scaffoldState = scaffoldState,
+        //val scheduleUiState by viewmodel.scheduleUiState.collectAsState()
 
-        topBar = {
-
-            UpperAppBar()
-
-        },
-
-        bottomBar = {
-
-            LowerNavBar()
-
-        },
-
-        floatingActionButton = {
-            ScheduleActionButton()
-        },
-
-        drawerContent = {
-            ScheduleDrawer()
-        },
-
-        content = {
-
-            ScheduleContent(displayItems = scheduleUiState.eventList)
-        }
-
-    )
+        Banner("Afternoon")
+        InspirationCard()
 }
+
 
 @Composable
 fun ScheduleActionButton() {
@@ -94,19 +62,24 @@ fun ScheduleContent(displayItems: List<ScheduleEntity>) {
     Column {
         Banner("Afternoon")
         InspirationCard()
-        LazyColumn {
-            items(displayItems) { agenda ->
-                ScheduleItem(agenda)
-            }
-        }
+//        LazyColumn {
+//            items(displayItems) { agenda ->
+//                ScheduleItem(agenda)
+//            }
+//        }
     }
 
 }
 
+
+
 @Composable
 fun ScheduleItem(event: ScheduleEntity) {
-    Column() {
-        
+    var nameText by remember { mutableStateOf(TextFieldValue("")) }
+    var descText by remember { mutableStateOf(TextFieldValue("")) }
+    Row() {
+        TextField(value = nameText, onValueChange = {newText -> nameText = newText})
+        TextField(value = descText, onValueChange = {newText -> descText = newText})
     }
 }
 
@@ -212,33 +185,33 @@ fun BannerText(timeOfDay: String) {
     }
 }
 
-@Composable
-fun TimeSelection() {
-    // Fetching local context
-    val mContext = LocalContext.current
-
-    // Declaring and initializing a calendar
-    val mCalendar = Calendar.getInstance()
-    val mHour = mCalendar[Calendar.HOUR_OF_DAY]
-    val mMinute = mCalendar[Calendar.MINUTE]
-
-    // Value for storing time as a string
-    val mTime = remember { mutableStateOf("") }
-
-    // Creating a TimePicker dialod
-    val mTimePickerDialog = TimePickerDialog(
-        mContext,
-        {_, mHour : Int, mMinute: Int ->
-            mTime.value = "$mHour:$mMinute"
-        }, mHour, mMinute, false
-    )
-
-    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
-
-        // On button click, TimePicker is
-        // displayed, user can select a time
-        Button(onClick = { mTimePickerDialog.show() }, colors = ButtonDefaults.buttonColors(backgroundColor = Color(0XFF0F9D58))) {
-            Text(text = "OK", color = Color.White)
-        }
-    }
-}
+//@Composable
+//fun TimeSelection() {
+//    // Fetching local context
+//    val mContext = LocalContext.current
+//
+//    // Declaring and initializing a calendar
+//    val mCalendar = Calendar.getInstance()
+//    val mHour = mCalendar[Calendar.HOUR_OF_DAY]
+//    val mMinute = mCalendar[Calendar.MINUTE]
+//
+//    // Value for storing time as a string
+//    val mTime = remember { mutableStateOf("") }
+//
+//    // Creating a TimePicker dialod
+//    val mTimePickerDialog = TimePickerDialog(
+//        mContext,
+//        {_, mHour : Int, mMinute: Int ->
+//            mTime.value = "$mHour:$mMinute"
+//        }, mHour, mMinute, false
+//    )
+//
+//    Column(modifier = Modifier.fillMaxSize(), verticalArrangement = Arrangement.Center, horizontalAlignment = Alignment.CenterHorizontally) {
+//
+//        // On button click, TimePicker is
+//        // displayed, user can select a time
+//        Button(onClick = { mTimePickerDialog.show() }, colors = ButtonDefaults.buttonColors(backgroundColor = Color(0XFF0F9D58))) {
+//            Text(text = "OK", color = Color.White)
+//        }
+//    }
+//}

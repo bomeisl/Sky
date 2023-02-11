@@ -1,7 +1,6 @@
 package com.example.sky.data.databases.schedule
 
 import androidx.room.*
-import com.example.sky.data.repositories.ScheduleRepository
 import kotlinx.coroutines.flow.Flow
 
 @Dao
