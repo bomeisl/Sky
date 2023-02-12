@@ -15,10 +15,10 @@ interface ScheduleDao {
     @Delete
     suspend fun deleteEvent(scheduleEntity: ScheduleEntity)
 
-    @Query("SELECT * FROM scheduleEntity WHERE id = :id")
+    @Query("SELECT * FROM Schedule WHERE id = :id")
     fun getEvent(id: Int): Flow<ScheduleEntity>
 
-    @Query("SELECT * FROM scheduleEntity ORDER BY time ASC")
+    @Query("SELECT * FROM Schedule ORDER BY event_time ASC")
     fun getAllEvents(): Flow<List<ScheduleEntity>>
 
 

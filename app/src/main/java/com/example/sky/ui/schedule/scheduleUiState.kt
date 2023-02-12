@@ -21,8 +21,8 @@ fun EventUiState.toScheduleEntity(): ScheduleEntity = ScheduleEntity(
     id = id,
     event_name = event_name,
     event_description = event_description,
-    event_date = LocalDate.parse(event_date),
-    event_time = LocalTime.parse(event_time),
+    event_date = event_date,
+    event_time = event_time,
     event_completed = event_completed,
     event_priority = when (event_priority) {
         "5" -> EventPriority.FIVE

@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
 
 }
 
@@ -61,8 +62,14 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.0-alpha05'
     implementation 'androidx.leanback:leanback:1.0.0'
 
+    //Room
+    implementation("androidx.room:room-runtime:2.5.0")
+
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:2.5.0")
+
     //ViewModel
-    annotationProcessor "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
+    kapt "androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.5.1"
     implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.1"

@@ -33,8 +33,8 @@ abstract class ScheduleDatabase(): RoomDatabase() {
                         0,
                         "kill the president",
                         "assassinate the American president and seize power",
-                        LocalDate.now(),
-                        LocalTime.now(),
+                        "",
+                        "",
                         event_completed = false
                     )
                     scheduleDao.newEvent(schedule)
@@ -42,13 +42,13 @@ abstract class ScheduleDatabase(): RoomDatabase() {
                         1,
                         "have some coffee",
                         "head over to Starbucks for a cup of Joe",
-                        LocalDate.now(),
-                        LocalTime.now(),
+                        "",
+                        "",
                         event_completed = false
                     )
 
                     //User event adding function
-                    schedule = ScheduleEntity(/* TODO */)
+                    //schedule = {}
                     scheduleDao.newEvent(schedule)
 
                 }

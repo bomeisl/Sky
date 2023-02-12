@@ -41,7 +41,7 @@ fun ScheduleScreen(
     navController: NavHostController,
     viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
-    var events: State<List<AgendaItem>> = viewModel.uiState.collectAsState()
+    var events: State<List<ScheduleEntity>> = viewModel.uiState.collectAsState()
     var scaffoldState: ScaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
 
@@ -87,7 +87,7 @@ fun ScheduleDrawer() {
 }
 
 @Composable
-fun ScheduleContent(displayItems: List<AgendaItem>) {
+fun ScheduleContent(displayItems: List<ScheduleEntity>) {
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Banner("Morning")
@@ -107,7 +107,7 @@ fun ScheduleContent(displayItems: List<AgendaItem>) {
 
 
 @Composable
-fun ScheduleItem(event: AgendaItem) {
+fun ScheduleItem(event: ScheduleEntity) {
     var nameText by remember { mutableStateOf(TextFieldValue("")) }
     Row(modifier = Modifier,
     horizontalArrangement = Arrangement.Center) {
