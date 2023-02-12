@@ -1,34 +1,27 @@
 package com.example.sky.ui.navigation
 
-import android.app.TimePickerDialog
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
-import java.util.*
 
 
 @Composable
-fun UpperAppBar() {
+fun SkyTopAppBar() {
     val scaffoldState: ScaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
 
@@ -57,7 +50,8 @@ fun UpperAppBar() {
             },
             elevation = 10.dp,
             modifier = Modifier
-                .background(Color.White)
+                .background(Color.White),
+
         )
         SearchBar()
     }
@@ -71,5 +65,21 @@ fun TopMenuItem(iconId: Int, item: String) {
             Text(text = item)
         }
     }
+}
+
+@Composable
+fun SearchBar() {
+    var text: String by remember { mutableStateOf("") }
+    
+    TextField(
+        value = text,
+        onValueChange = {newText -> text = newText},
+        modifier = Modifier
+            .background(Color.White)
+            .fillMaxWidth(),
+        placeholder = { Text(text = "Search for a scheduled event", fontSize = 20.sp)},
+        trailingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "")}
+    )
+    
 }
 

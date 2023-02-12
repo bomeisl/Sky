@@ -3,9 +3,9 @@ package com.example.sky.ui.screens
 import android.graphics.fonts.FontStyle
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Card
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,24 +18,29 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.sky.R
 import com.example.sky.data.databases.schedule.ScheduleEntity
+import com.example.sky.ui.AgendaItem
 import com.example.sky.ui.navigation.FloatActionButton
-import com.example.sky.viewModels.ScheduleViewModel
+import com.example.sky.ui.navigation.SkyBottomNavBar
+import com.example.sky.ui.navigation.SkyTopAppBar
+import com.example.sky.viewModels.HomeViewModel
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun ScheduleScreen(
     navController: NavHostController,
-    //viewmodel: ScheduleViewModel = viewModel()
+    viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
-        //val scheduleUiState by viewmodel.scheduleUiState.collectAsState()
+    var events: State<List<AgendaItem>> = viewModel.uiState.collectAsState()
 
-        Banner("Afternoon")
-        InspirationCard()
+    Scaffold(
+        topBar = { SkyTopAppBar() },
+        content = { ScheduleContent(displayItems = events.value) },
+        bottomBar = { SkyBottomNavBar() }
+    )
 }
-
 
 @Composable
 fun ScheduleActionButton() {
@@ -57,16 +62,16 @@ fun ScheduleDrawer() {
 }
 
 @Composable
-fun ScheduleContent(displayItems: List<ScheduleEntity>) {
+fun ScheduleContent(displayItems: List<AgendaItem>) {
 
     Column {
         Banner("Afternoon")
         InspirationCard()
-//        LazyColumn {
-//            items(displayItems) { agenda ->
-//                ScheduleItem(agenda)
-//            }
-//        }
+        LazyColumn {
+            items(displayItems) { agenda ->
+                ScheduleItem(agenda)
+            }
+        }
     }
 
 }
@@ -74,7 +79,7 @@ fun ScheduleContent(displayItems: List<ScheduleEntity>) {
 
 
 @Composable
-fun ScheduleItem(event: ScheduleEntity) {
+fun ScheduleItem(event: AgendaItem) {
     var nameText by remember { mutableStateOf(TextFieldValue("")) }
     var descText by remember { mutableStateOf(TextFieldValue("")) }
     Row() {
@@ -176,7 +181,7 @@ fun BannerText(timeOfDay: String) {
         )
     } else {
         Text(
-            text = "Good $timeOfDay Claire", color = Color.White,
+            text = "Happy $timeOfDay Claire :)", color = Color.White,
             fontSize = 50.sp,
             fontFamily = FontFamily.Cursive,
             fontWeight = FontWeight.Black,
