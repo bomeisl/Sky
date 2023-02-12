@@ -15,15 +15,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.dp
+import com.example.sky.ui.theme.ClassicBlue
+import com.example.sky.ui.theme.Sky
+import java.lang.reflect.Modifier
 
 @Composable
 fun SkyBottomNavBar() {
     BottomAppBar(
         modifier = androidx.compose.ui.Modifier
             .fillMaxWidth()
-            .padding(top = 30.dp)
+            .padding(top = 30.dp),
+        backgroundColor = ClassicBlue
     ) {
-        BottomNavigation() {
+        BottomNavigation(
+            modifier = androidx.compose.ui.Modifier,
+            backgroundColor = ClassicBlue
+        ) {
             val selectedItem: Boolean by remember { mutableStateOf(false) }
 
             BottomNavigationItem(

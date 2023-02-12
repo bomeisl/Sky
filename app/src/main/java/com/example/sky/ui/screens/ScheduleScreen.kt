@@ -2,10 +2,14 @@ package com.example.sky.ui.screens
 
 import android.graphics.fonts.FontStyle
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Send
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -25,6 +29,10 @@ import com.example.sky.ui.AgendaItem
 import com.example.sky.ui.navigation.FloatActionButton
 import com.example.sky.ui.navigation.SkyBottomNavBar
 import com.example.sky.ui.navigation.SkyTopAppBar
+import com.example.sky.ui.theme.ClassicBlue
+import com.example.sky.ui.theme.FadedSky
+import com.example.sky.ui.theme.MidSky
+import com.example.sky.ui.theme.Sky
 import com.example.sky.viewModels.HomeViewModel
 import kotlinx.coroutines.flow.StateFlow
 
@@ -34,13 +42,30 @@ fun ScheduleScreen(
     viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
 ) {
     var events: State<List<AgendaItem>> = viewModel.uiState.collectAsState()
+    var scaffoldState: ScaffoldState = rememberScaffoldState()
+    val scope = rememberCoroutineScope()
 
     Scaffold(
         topBar = { SkyTopAppBar() },
         content = { ScheduleContent(displayItems = events.value) },
-        bottomBar = { SkyBottomNavBar() }
+        bottomBar = { SkyBottomNavBar() },
+        drawerContent = {
+            Surface() {
+                Row() {
+                    Icon(imageVector = Icons.Outlined.Home, contentDescription = "")
+                }
+            }
+
+        },
+        drawerGesturesEnabled = true,
+        floatingActionButton = {
+            Button(onClick = { viewModel.addNewAgenda() }) {
+                
+            }
+        }
     )
 }
+
 
 @Composable
 fun ScheduleActionButton() {
@@ -64,14 +89,17 @@ fun ScheduleDrawer() {
 @Composable
 fun ScheduleContent(displayItems: List<AgendaItem>) {
 
-    Column {
-        Banner("Afternoon")
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Banner("Morning")
         InspirationCard()
-        LazyColumn {
-            items(displayItems) { agenda ->
-                ScheduleItem(agenda)
+        Row(horizontalArrangement = Arrangement.Center) {
+            LazyColumn() {
+                items(displayItems) { agenda ->
+                    ScheduleItem(agenda)
+                }
             }
         }
+
     }
 
 }
@@ -81,10 +109,29 @@ fun ScheduleContent(displayItems: List<AgendaItem>) {
 @Composable
 fun ScheduleItem(event: AgendaItem) {
     var nameText by remember { mutableStateOf(TextFieldValue("")) }
-    var descText by remember { mutableStateOf(TextFieldValue("")) }
-    Row() {
-        TextField(value = nameText, onValueChange = {newText -> nameText = newText})
-        TextField(value = descText, onValueChange = {newText -> descText = newText})
+    Row(modifier = Modifier,
+    horizontalArrangement = Arrangement.Center) {
+        TextField(
+            value = nameText,
+            onValueChange = {newText -> nameText = newText},
+            modifier = Modifier
+                .padding(start = 20.dp),
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Color.White,
+                placeholderColor = Color.White,
+                textColor = Color.Gray,
+                focusedIndicatorColor = FadedSky,
+                unfocusedIndicatorColor = Color.LightGray
+            )
+        )
+        IconButton(
+            onClick = { /*TODO*/ },
+            content = {
+                Image(imageVector = Icons.Outlined.Send, contentDescription = "")
+            },
+
+        )
+
     }
 }
 
@@ -102,8 +149,8 @@ fun InspirationCard() {
         ) {
             Box() {
                 Text(text = "What're We Doing Today?", color = Color.DarkGray,
-                    fontSize = 30.sp,
-                    fontStyle = androidx.compose.ui.text.font.FontStyle(FontStyle.FONT_WEIGHT_EXTRA_LIGHT),
+                    fontSize = 35.sp,
+                    fontStyle = androidx.compose.ui.text.font.FontStyle(FontStyle.FONT_WEIGHT_MEDIUM),
                     fontFamily = FontFamily.Cursive)
 
             }
@@ -179,9 +226,28 @@ fun BannerText(timeOfDay: String) {
             fontWeight = FontWeight.Black,
             textAlign = TextAlign.Center
         )
-    } else {
+    }
+    if (timeOfDay == "Afternoon"){
         Text(
-            text = "Happy $timeOfDay Claire :)", color = Color.White,
+            text = "Have a Wonderful $timeOfDay Claire :)", color = Color.White,
+            fontSize = 50.sp,
+            fontFamily = FontFamily.Cursive,
+            fontWeight = FontWeight.Black,
+            textAlign = TextAlign.Center
+        )
+    }
+    if (timeOfDay == "Evening"){
+        Text(
+            text = "Good $timeOfDay Claire :)", color = Color.White,
+            fontSize = 50.sp,
+            fontFamily = FontFamily.Cursive,
+            fontWeight = FontWeight.Black,
+            textAlign = TextAlign.Center
+        )
+    }
+    if (timeOfDay == "Night"){
+        Text(
+            text = "Good $timeOfDay Claire, Sleep Well :)", color = Color.White,
             fontSize = 50.sp,
             fontFamily = FontFamily.Cursive,
             fontWeight = FontWeight.Black,

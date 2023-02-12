@@ -17,14 +17,15 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.sky.ui.theme.ClassicBlue
+import com.example.sky.ui.theme.FadedSky
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
 @Composable
 fun SkyTopAppBar() {
-    val scaffoldState: ScaffoldState = rememberScaffoldState()
-    val scope = rememberCoroutineScope()
-
+val scope: CoroutineScope = rememberCoroutineScope()
     Column() {
         TopAppBar(
 
@@ -38,11 +39,11 @@ fun SkyTopAppBar() {
             },
             navigationIcon = {
                 IconButton(onClick = {
-                    scope.launch {
-                        scaffoldState.drawerState.apply {
-                            if (isClosed) open() else close()
-                        }
-                    }
+//                    scope.launch {
+//                        scaffoldState.drawerState.apply {
+//                            if (isClosed) open() else close()
+//                        }
+//                    }
 
                 }) {
                     Icon(Icons.Filled.Menu, "")
@@ -51,6 +52,7 @@ fun SkyTopAppBar() {
             elevation = 10.dp,
             modifier = Modifier
                 .background(Color.White),
+            backgroundColor = ClassicBlue
 
         )
         SearchBar()
@@ -68,7 +70,8 @@ fun TopMenuItem(iconId: Int, item: String) {
 }
 
 @Composable
-fun SearchBar() {
+fun SearchBar(
+) {
     var text: String by remember { mutableStateOf("") }
     
     TextField(
@@ -77,6 +80,9 @@ fun SearchBar() {
         modifier = Modifier
             .background(Color.White)
             .fillMaxWidth(),
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = FadedSky
+        ),
         placeholder = { Text(text = "Search for a scheduled event", fontSize = 20.sp)},
         trailingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "")}
     )

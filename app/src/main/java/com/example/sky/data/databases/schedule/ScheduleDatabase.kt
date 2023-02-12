@@ -20,7 +20,7 @@ abstract class ScheduleDatabase(): RoomDatabase() {
 
     private class ScheduleDatabaseCallback(
         private val scope: CoroutineScope
-    ) : RoomDatabase.Callback() {
+    ) : Callback() {
         override fun onCreate(db: SupportSQLiteDatabase) {
             super.onCreate(db)
 
