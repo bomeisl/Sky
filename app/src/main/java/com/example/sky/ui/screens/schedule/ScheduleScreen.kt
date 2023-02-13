@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Send
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Send
 import androidx.compose.runtime.*
@@ -30,10 +31,13 @@ import com.example.sky.data.databases.schedule.Event
 import com.example.sky.ui.navigation.FloatActionButton
 import com.example.sky.ui.navigation.SkyBottomNavBar
 import com.example.sky.ui.theme.FadedSky
+import com.example.sky.ui.theme.MidSky
+import com.example.sky.ui.theme.Sky
 import com.example.sky.viewModels.AppViewModelProvider
 import com.example.sky.viewModels.schedule.EventList
 import com.example.sky.viewModels.schedule.ScheduleEditViewModel
 import com.example.sky.viewModels.schedule.ScheduleViewModel
+import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -88,7 +92,7 @@ fun ScheduleDrawer() {
 
 @Composable
 fun ScheduleContent(uiState: State<EventList>) {
-    val eventList = uiState.value.eventList
+    var eventList = uiState.value.eventList
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Banner("Morning")
@@ -112,36 +116,94 @@ fun ScheduleContent(uiState: State<EventList>) {
 fun EventBlank(
     scheduleEditViewModel: ScheduleEditViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
+    val scope = rememberCoroutineScope()
     var text by remember { mutableStateOf("") }
-    TextField(
-        value = text,
-        onValueChange = {newText -> text = newText},
-        modifier = Modifier
-            .padding(start = 20.dp),
-        placeholder = { Text(text = "Ex: 'Climb a tree' or 'Have breakfast'")},
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = Color.White,
-            placeholderColor = Color.Black,
-            textColor = Color.Gray,
-            focusedIndicatorColor = FadedSky,
-            unfocusedIndicatorColor = Color.LightGray
-        )
-    )
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Row(horizontalArrangement = Arrangement.Center) {
+
+            TextField(
+                value = text,
+                onValueChange = { newText -> text = newText },
+                modifier = Modifier
+                    .padding(start = 20.dp),
+                placeholder = { Text(text = "Ex: 'Climb a tree' or 'Have breakfast'") },
+                colors = TextFieldDefaults.textFieldColors(
+                    backgroundColor = Color.White,
+                    placeholderColor = Color.Black,
+                    textColor = Color.Gray,
+                    focusedIndicatorColor = FadedSky,
+                    unfocusedIndicatorColor = Color.LightGray
+                )
+            )
+            IconButton(
+                onClick = {
+                    scope.launch {
+                        scheduleEditViewModel.addEvent(Event(1, text, "", "", "", false))
+                    }
+
+                },
+                content = { Icon(imageVector = Icons.Filled.Send, contentDescription = "", tint = Sky)}
+            )
+        }
+    }
 }
 
 
 
 @Composable
-fun ScheduleItem(event: Event) {
-    var nameText by remember { mutableStateOf(TextFieldValue("")) }
+fun ScheduleItem(
+    event: Event,
+    viewModel: ScheduleEditViewModel = viewModel(factory = AppViewModelProvider.Factory),
+) {
+    var nameText: String by remember { mutableStateOf("") }
+    val scope = rememberCoroutineScope()
+    var name: String by remember { mutableStateOf(event.event_name)}
     Row(modifier = Modifier,
     horizontalArrangement = Arrangement.Center) {
+        TextField(
+            value = nameText,
+            onValueChange = {newText -> nameText = newText; name = newText},
+            modifier = Modifier
+                .padding(start = 20.dp),
+            placeholder = { Text(text = name) },
+            colors = TextFieldDefaults.textFieldColors(
+                backgroundColor = Color.White,
+                placeholderColor = Color.Black,
+                textColor = Color.Gray,
+                focusedIndicatorColor = FadedSky,
+                unfocusedIndicatorColor = Color.LightGray
+            )
+        )
+        IconButton(
+            onClick = {
+                      scope.launch {
+                          viewModel.addEvent(Event(0, nameText, nameText,"","",false))
+                      }
+
+            },
+            content = {
+                Image(imageVector = Icons.Outlined.Send, contentDescription = "")
+            },
+
+        )
+
+    }
+}
+
+@Composable
+fun Event(
+    event: Event,
+) {
+    var nameText: String by remember { mutableStateOf("") }
+    val scope = rememberCoroutineScope()
+    Row(modifier = Modifier,
+        horizontalArrangement = Arrangement.Center) {
         TextField(
             value = nameText,
             onValueChange = {newText -> nameText = newText},
             modifier = Modifier
                 .padding(start = 20.dp),
-            placeholder = { Text(text = "Ex: 'Climb a tree' or 'Have breakfast'")},
+            placeholder = { Text(text = event.event_name) },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.White,
                 placeholderColor = Color.White,
@@ -151,12 +213,14 @@ fun ScheduleItem(event: Event) {
             )
         )
         IconButton(
-            onClick = { /*TODO*/ },
+            onClick = {
+
+            },
             content = {
                 Image(imageVector = Icons.Outlined.Send, contentDescription = "")
             },
 
-        )
+            )
 
     }
 }
