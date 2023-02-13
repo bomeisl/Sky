@@ -1,4 +1,4 @@
-package com.example.sky.viewModels
+package com.example.sky.viewModels.schedule
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

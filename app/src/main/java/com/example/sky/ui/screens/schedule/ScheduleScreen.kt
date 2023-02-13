@@ -30,8 +30,8 @@ import com.example.sky.ui.navigation.FloatActionButton
 import com.example.sky.ui.navigation.SkyBottomNavBar
 import com.example.sky.ui.theme.FadedSky
 import com.example.sky.viewModels.AppViewModelProvider
-import com.example.sky.viewModels.EventList
-import com.example.sky.viewModels.ScheduleViewModel
+import com.example.sky.viewModels.schedule.EventList
+import com.example.sky.viewModels.schedule.ScheduleViewModel
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -93,6 +93,8 @@ fun ScheduleContent(uiState: State<EventList>) {
         InspirationCard()
         Row(horizontalArrangement = Arrangement.Center) {
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                item { EventBlank() }
+
                 items(eventList.size) { item ->
                     ScheduleItem(event = eventList[item])
                     
@@ -102,6 +104,25 @@ fun ScheduleContent(uiState: State<EventList>) {
 
     }
 
+}
+
+@Composable
+fun EventBlank() {
+    var text by remember { mutableStateOf("") }
+    TextField(
+        value = text,
+        onValueChange = {newText -> text = newText},
+        modifier = Modifier
+            .padding(start = 20.dp),
+        placeholder = { Text(text = "Ex: 'Climb a tree' or 'Have breakfast'")},
+        colors = TextFieldDefaults.textFieldColors(
+            backgroundColor = Color.White,
+            placeholderColor = Color.Black,
+            textColor = Color.Gray,
+            focusedIndicatorColor = FadedSky,
+            unfocusedIndicatorColor = Color.LightGray
+        )
+    )
 }
 
 
@@ -116,6 +137,7 @@ fun ScheduleItem(event: Event) {
             onValueChange = {newText -> nameText = newText},
             modifier = Modifier
                 .padding(start = 20.dp),
+            placeholder = { Text(text = "Ex: 'Climb a tree' or 'Have breakfast'")},
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.White,
                 placeholderColor = Color.White,

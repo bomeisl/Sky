@@ -1,4 +1,4 @@
-package com.example.sky.viewModels
+package com.example.sky.viewModels.schedule
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,8 +8,10 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import java.time.LocalDate
+import java.time.LocalTime
 
-class ScheduleViewModel(scheduleRepository: ScheduleRepository): ViewModel() {
+class ScheduleViewModel(private val scheduleRepository: ScheduleRepository): ViewModel() {
 
     //UI State
     val scheduleUiState: StateFlow<EventList> =
@@ -17,7 +19,9 @@ class ScheduleViewModel(scheduleRepository: ScheduleRepository): ViewModel() {
             .stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(TIMEOUT_MILLIS),
-                initialValue = EventList()
+                initialValue = EventList(
+                    mutableListOf( Event(0,"Wake up","get out of bed",LocalDate.now().toString(), LocalTime.now().toString(),false))
+                )
             )
 
     companion object {
