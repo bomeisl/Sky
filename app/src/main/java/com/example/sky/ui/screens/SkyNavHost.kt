@@ -9,9 +9,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.sky.viewModels.ScheduleViewModel
 
+
 @Composable
 fun SkyNavHost() {
     val navController = rememberNavController()
+
 
     NavHost(
             navController = navController,

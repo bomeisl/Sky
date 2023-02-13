@@ -1,17 +1,23 @@
 package com.example.sky.viewModels
-//
-//import androidx.lifecycle.viewmodel.initializer
-//import androidx.lifecycle.viewmodel.viewModelFactory
-//import com.example.sky.data.databases.schedule.ScheduleDao
-//import com.example.sky.data.repositories.OfflineScheduleRepository
-//import com.example.sky.data.repositories.ScheduleRepository
-//
-//object AppViewModelProvider {
-//
-//    val Factory = viewModelFactory {
-//        initializer {
-//            ScheduleViewModel(OfflineScheduleRepository())
-//        }
-//    }
-//
-//}
+
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewmodel.CreationExtras
+import androidx.lifecycle.viewmodel.initializer
+import androidx.lifecycle.viewmodel.viewModelFactory
+import com.example.sky.SkyApplication
+
+object AppViewModelProvider {
+
+    val Factory = viewModelFactory {
+        initializer {
+            ScheduleViewModel(
+                skyApplication().container.scheduleRepository
+            )
+        }
+
+    }
+}
+
+fun CreationExtras.skyApplication(): SkyApplication =
+    (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as SkyApplication)
+

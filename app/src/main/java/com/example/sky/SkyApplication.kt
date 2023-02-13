@@ -1,16 +1,15 @@
 package com.example.sky
 
 import android.app.Application
-import com.example.sky.data.databases.schedule.ScheduleDatabase
-import com.example.sky.data.repositories.ScheduleRepository
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.SupervisorJob
+import com.example.sky.data.AppContainer
+import com.example.sky.data.AppDataContainer
 
-class SkyApplication(): Application() {
-    val applicationScope = CoroutineScope(SupervisorJob())
+class SkyApplication : Application() {
 
-    @OptIn(InternalCoroutinesApi::class)
-    val database by lazy { ScheduleDatabase.getDatabase(this, applicationScope) }
-    val repository by lazy { ScheduleRepository(database.scheduleDao()) }
+    lateinit var container: AppContainer
+    override fun onCreate() {
+        super.onCreate()
+        container = AppDataContainer(this)
+    }
+
 }

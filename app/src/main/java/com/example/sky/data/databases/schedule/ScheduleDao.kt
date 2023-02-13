@@ -7,19 +7,19 @@ import kotlinx.coroutines.flow.Flow
 interface ScheduleDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun newEvent(scheduleEntity: ScheduleEntity)
+    suspend fun newEvent(event: Event)
 
     @Update
-    suspend fun updateEvent(scheduleEntity: ScheduleEntity)
+    suspend fun updateEvent(event: Event)
 
     @Delete
-    suspend fun deleteEvent(scheduleEntity: ScheduleEntity)
+    suspend fun deleteEvent(event: Event)
 
     @Query("SELECT * FROM Schedule WHERE id = :id")
-    fun getEvent(id: Int): Flow<ScheduleEntity>
+    fun getEvent(id: Int): Flow<Event>
 
     @Query("SELECT * FROM Schedule ORDER BY event_time ASC")
-    fun getAllEvents(): Flow<List<ScheduleEntity>>
+    fun getAllEvents(): Flow<List<Event>>
 
 
 }

@@ -4,78 +4,28 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.sqlite.db.SupportSQLiteDatabase
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.InternalCoroutinesApi
-import kotlinx.coroutines.internal.synchronized
-import kotlinx.coroutines.launch
-import java.time.LocalDate
-import java.time.LocalTime
-import kotlin.reflect.KParameter
 
-@Database(entities = [ScheduleEntity::class], version = 1, exportSchema = false)
-abstract class ScheduleDatabase(): RoomDatabase() {
+@Database(entities = [Event::class], version = 1, exportSchema = false)
+abstract class ScheduleDatabase : RoomDatabase() {
 
     abstract fun scheduleDao(): ScheduleDao
 
-    private class ScheduleDatabaseCallback(
-        private val scope: CoroutineScope
-    ) : Callback() {
-        override fun onCreate(db: SupportSQLiteDatabase) {
-            super.onCreate(db)
-
-            INSTANCE?.let { database ->
-                scope.launch {
-                    var scheduleDao = database.scheduleDao()
-
-                    //Add sample events
-                    var schedule = ScheduleEntity(
-                        0,
-                        "kill the president",
-                        "assassinate the American president and seize power",
-                        "",
-                        "",
-                        event_completed = false
-                    )
-                    scheduleDao.newEvent(schedule)
-                    schedule = ScheduleEntity(
-                        1,
-                        "have some coffee",
-                        "head over to Starbucks for a cup of Joe",
-                        "",
-                        "",
-                        event_completed = false
-                    )
-
-                    //User event adding function
-                    //schedule = {}
-                    scheduleDao.newEvent(schedule)
-
-                }
-
-            }
-        }
-    }
-
     companion object {
         @Volatile
-        private var INSTANCE: ScheduleDatabase? = null
+        private var Instance: ScheduleDatabase? = null
 
-        @InternalCoroutinesApi
-        fun getDatabase(
-            context: Context,
-            scope: CoroutineScope
-        ): ScheduleDatabase {
-            return INSTANCE?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    ScheduleDatabase::class.java,
-                    "schedule_database"
-                )
-                    .addCallback(ScheduleDatabaseCallback(scope))
+        fun getDatabase(context: Context): ScheduleDatabase {
+            // if the Instance is not null, return it, otherwise create a new database instance.
+            return Instance ?: synchronized(this) {
+                Room.databaseBuilder(context, ScheduleDatabase::class.java, "schedule_database")
+                    /**
+                     * Setting this option in your app's database builder means that Room
+                     * permanently deletes all data from the tables in your database when it
+                     * attempts to perform a migration with no defined migration path.
+                     */
+                    .fallbackToDestructiveMigration()
                     .build()
-                INSTANCE = instance
-                instance
+                    .also { Instance = it }
             }
         }
     }

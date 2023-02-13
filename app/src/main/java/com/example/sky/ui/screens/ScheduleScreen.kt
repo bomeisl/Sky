@@ -1,11 +1,10 @@
 package com.example.sky.ui.screens
 
+import android.annotation.SuppressLint
 import android.graphics.fonts.FontStyle
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Home
@@ -22,32 +21,31 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.sky.R
-import com.example.sky.data.databases.schedule.ScheduleEntity
-import com.example.sky.ui.AgendaItem
+import com.example.sky.data.databases.schedule.Event
 import com.example.sky.ui.navigation.FloatActionButton
 import com.example.sky.ui.navigation.SkyBottomNavBar
 import com.example.sky.ui.navigation.SkyTopAppBar
-import com.example.sky.ui.theme.ClassicBlue
 import com.example.sky.ui.theme.FadedSky
-import com.example.sky.ui.theme.MidSky
-import com.example.sky.ui.theme.Sky
-import com.example.sky.viewModels.HomeViewModel
-import kotlinx.coroutines.flow.StateFlow
+import com.example.sky.viewModels.AppViewModelProvider
+import com.example.sky.viewModels.EventList
+import com.example.sky.viewModels.ScheduleViewModel
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun ScheduleScreen(
     navController: NavHostController,
-    viewModel: HomeViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    viewModel: ScheduleViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    var events: State<List<ScheduleEntity>> = viewModel.uiState.collectAsState()
+    val uiState = viewModel.scheduleUiState.collectAsState()
     var scaffoldState: ScaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
 
     Scaffold(
         topBar = { SkyTopAppBar() },
-        content = { ScheduleContent(displayItems = events.value) },
+        content = { ScheduleContent(uiState) },
         bottomBar = { SkyBottomNavBar() },
         drawerContent = {
             Surface() {
@@ -59,7 +57,7 @@ fun ScheduleScreen(
         },
         drawerGesturesEnabled = true,
         floatingActionButton = {
-            Button(onClick = { viewModel.addNewAgenda() }) {
+            Button(onClick = {  }) {
                 
             }
         }
@@ -87,15 +85,17 @@ fun ScheduleDrawer() {
 }
 
 @Composable
-fun ScheduleContent(displayItems: List<ScheduleEntity>) {
+fun ScheduleContent(uiState: State<EventList>) {
+    val eventList = uiState.value.eventList
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Banner("Morning")
         InspirationCard()
         Row(horizontalArrangement = Arrangement.Center) {
-            LazyColumn() {
-                items(displayItems) { agenda ->
-                    ScheduleItem(agenda)
+            LazyColumn(modifier = Modifier.fillMaxWidth()) {
+                items(eventList.size) { item ->
+                    ScheduleItem(event = eventList[item])
+                    
                 }
             }
         }
@@ -107,7 +107,7 @@ fun ScheduleContent(displayItems: List<ScheduleEntity>) {
 
 
 @Composable
-fun ScheduleItem(event: ScheduleEntity) {
+fun ScheduleItem(event: Event) {
     var nameText by remember { mutableStateOf(TextFieldValue("")) }
     Row(modifier = Modifier,
     horizontalArrangement = Arrangement.Center) {

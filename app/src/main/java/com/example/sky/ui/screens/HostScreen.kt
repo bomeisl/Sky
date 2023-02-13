@@ -25,7 +25,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.sky.R
-import com.example.sky.viewModels.HomeViewModel
 import kotlinx.coroutines.launch
 
 

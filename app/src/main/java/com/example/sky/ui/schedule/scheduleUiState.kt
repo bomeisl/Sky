@@ -1,11 +1,7 @@
 package com.example.sky.ui.schedule
 
-import android.provider.CalendarContract.EventsEntity
+import com.example.sky.data.databases.schedule.Event
 import com.example.sky.data.databases.schedule.EventPriority
-import com.example.sky.data.databases.schedule.ScheduleEntity
-import com.example.sky.ui.AgendaItem
-import java.time.LocalDate
-import java.time.LocalTime
 
 data class EventUiState(
     val id: Int = 0,
@@ -17,7 +13,7 @@ data class EventUiState(
     val event_priority: String = "",
 )
 
-fun EventUiState.toScheduleEntity(): ScheduleEntity = ScheduleEntity(
+fun EventUiState.toEvent(): Event = Event(
     id = id,
     event_name = event_name,
     event_description = event_description,
@@ -35,7 +31,7 @@ fun EventUiState.toScheduleEntity(): ScheduleEntity = ScheduleEntity(
     }
 )
 
-fun ScheduleEntity.toEventUiState(): EventUiState = EventUiState(
+fun Event.toEventUiState(): EventUiState = EventUiState(
     id = id,
     event_name = event_name,
     event_description = event_description,

@@ -1,18 +1,29 @@
 package com.example.sky.data.repositories
 
-import androidx.annotation.WorkerThread
+import com.example.sky.data.databases.schedule.Event
 import com.example.sky.data.databases.schedule.ScheduleDao
-import com.example.sky.data.databases.schedule.ScheduleEntity
 import kotlinx.coroutines.flow.Flow
 
-class ScheduleRepository(private val scheduleDao: ScheduleDao) {
+class ScheduleRepository(private val scheduleDao: ScheduleDao): ScheduleRepositoryInterface {
 
-    val allEvents: Flow<List<ScheduleEntity>> = scheduleDao.getAllEvents()
+    override fun getAllEventsStream(): Flow<List<Event>> =
+        scheduleDao.getAllEvents()
 
-    @Suppress("RedundantSuspendModifier")
-    @WorkerThread
-    suspend fun insert(scheduleEntity: ScheduleEntity) {
-        scheduleDao.newEvent(scheduleEntity)
-    }
+
+    override fun getEventStream(id: Int): Flow<Event?> =
+        scheduleDao.getEvent(id)
+
+
+    override suspend fun insertEvent(event: Event) =
+        scheduleDao.newEvent(event)
+
+
+    override suspend fun updateEvent(event: Event) =
+        scheduleDao.updateEvent(event)
+
+
+    override suspend fun deleteEvent(event: Event) =
+        scheduleDao.deleteEvent(event)
+
 
 }
