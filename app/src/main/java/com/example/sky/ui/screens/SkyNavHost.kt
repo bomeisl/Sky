@@ -4,16 +4,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.example.sky.viewModels.ScheduleViewModel
-
 
 @Composable
-fun SkyNavHost() {
-    val navController = rememberNavController()
-
+fun SkyNavHost(navController: NavHostController) {
 
     NavHost(
             navController = navController,

@@ -24,10 +24,10 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.sky.R
+import com.example.sky.SkyTopAppBar
 import com.example.sky.data.databases.schedule.Event
 import com.example.sky.ui.navigation.FloatActionButton
 import com.example.sky.ui.navigation.SkyBottomNavBar
-import com.example.sky.ui.navigation.SkyTopAppBar
 import com.example.sky.ui.theme.FadedSky
 import com.example.sky.viewModels.AppViewModelProvider
 import com.example.sky.viewModels.EventList
@@ -44,7 +44,7 @@ fun ScheduleScreen(
     val scope = rememberCoroutineScope()
 
     Scaffold(
-        topBar = { SkyTopAppBar() },
+        topBar = { SkyTopAppBar("Sky",false) },
         content = { ScheduleContent(uiState) },
         bottomBar = { SkyBottomNavBar() },
         drawerContent = {

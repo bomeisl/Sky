@@ -23,69 +23,51 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 
-@Composable
-fun SkyTopAppBar() {
-val scope: CoroutineScope = rememberCoroutineScope()
-    Column() {
-        TopAppBar(
-
-            title = {
-                Text(
-                    text = "Sky",
-                    fontWeight = FontWeight.Black,
-                    fontFamily = FontFamily.Cursive,
-                    fontSize = 40.sp
-                )
-            },
-            navigationIcon = {
-                IconButton(onClick = {
-//                    scope.launch {
-//                        scaffoldState.drawerState.apply {
-//                            if (isClosed) open() else close()
-//                        }
-//                    }
-
-                }) {
-                    Icon(Icons.Filled.Menu, "")
-                }
-            },
-            elevation = 10.dp,
-            modifier = Modifier
-                .background(Color.White),
-            backgroundColor = ClassicBlue
-
-        )
-        SearchBar()
-    }
-}
-
-@Composable
-fun TopMenuItem(iconId: Int, item: String) {
-    Card() {
-        Row() {
-            Image(painter = painterResource(id = iconId),"")
-            Text(text = item)
-        }
-    }
-}
-
-@Composable
-fun SearchBar(
-) {
-    var text: String by remember { mutableStateOf("") }
-    
-    TextField(
-        value = text,
-        onValueChange = {newText -> text = newText},
-        modifier = Modifier
-            .background(Color.White)
-            .fillMaxWidth(),
-        colors = TextFieldDefaults.textFieldColors(
-            backgroundColor = FadedSky
-        ),
-        placeholder = { Text(text = "Search for a scheduled event", fontSize = 20.sp)},
-        trailingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "")}
-    )
-    
-}
+//@Composable
+//fun SkyTopAppBar() {
+//val scope: CoroutineScope = rememberCoroutineScope()
+//    Column() {
+//        TopAppBar(
+//
+//            title = {
+//                Text(
+//                    text = "Sky",
+//                    fontWeight = FontWeight.Black,
+//                    fontFamily = FontFamily.Cursive,
+//                    fontSize = 40.sp
+//                )
+//            },
+//            navigationIcon = {
+//                IconButton(onClick = {
+////                    scope.launch {
+////                        scaffoldState.drawerState.apply {
+////                            if (isClosed) open() else close()
+////                        }
+////                    }
+//
+//                }) {
+//                    Icon(Icons.Filled.Menu, "")
+//                }
+//            },
+//            elevation = 10.dp,
+//            modifier = Modifier
+//                .background(Color.White),
+//            backgroundColor = ClassicBlue
+//
+//        )
+//        SearchBar()
+//    }
+//}
+//
+//@Composable
+//fun TopMenuItem(iconId: Int, item: String) {
+//    Card() {
+//        Row() {
+//            Image(painter = painterResource(id = iconId),"")
+//            Text(text = item)
+//        }
+//    }
+//}
+//
+//
 
