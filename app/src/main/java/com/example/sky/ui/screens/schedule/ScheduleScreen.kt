@@ -7,13 +7,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Send
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Send
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
@@ -31,6 +34,7 @@ import com.example.sky.data.databases.schedule.Event
 import com.example.sky.data.databases.schedule.EventPriority
 import com.example.sky.ui.navigation.FloatActionButton
 import com.example.sky.ui.navigation.SkyBottomNavBar
+import com.example.sky.ui.theme.ClassicBlue
 import com.example.sky.ui.theme.FadedSky
 import com.example.sky.ui.theme.MidSky
 import com.example.sky.ui.theme.Sky
@@ -51,25 +55,56 @@ fun ScheduleScreen(
     val scope = rememberCoroutineScope()
 
     Scaffold(
-        topBar = { SkyTopAppBar("Sky",false) },
-        content = { ScheduleContent(uiState) },
+        scaffoldState = scaffoldState,
+        topBar = { SkyTopAppBar("Sky",false, Modifier , {}, scaffoldState) },
+        content = { ScheduleContent(uiState, scaffoldState) },
         bottomBar = { SkyBottomNavBar() },
         drawerContent = {
-            Surface() {
-                Row() {
-                    Icon(imageVector = Icons.Outlined.Home, contentDescription = "")
-                }
-            }
+
+            Icon(imageVector = Icons.Outlined.Home, contentDescription = "")
 
         },
         drawerGesturesEnabled = true,
         floatingActionButton = {
-            Button(onClick = {  }) {
-                
+            Column(verticalArrangement = Arrangement.Center) {
+
+
+                Row(verticalAlignment = Alignment.CenterVertically) {
+
+                    FloatingActionButton(
+                        onClick = {},
+                        shape = RectangleShape,
+                        backgroundColor = ClassicBlue,
+                        elevation = FloatingActionButtonDefaults.elevation(10.dp)
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+                            Icon(Icons.Filled.ArrowBack, "")
+                            Text(text = "Yesterday")
+                        }
+                    }
+                    Spacer(modifier = Modifier.width(235.dp))
+                    FloatingActionButton(
+                        onClick = {},
+                        shape = RectangleShape,
+                        backgroundColor = ClassicBlue,
+                        elevation = FloatingActionButtonDefaults.elevation(10.dp)
+                    ) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+
+                            Icon(Icons.Filled.ArrowForward, "")
+                            Text(text = "Tomorrow")
+                        }
+                    }
+                }
+
             }
-        }
+        },
+
+
     )
 }
+
 
 
 @Composable
@@ -92,7 +127,7 @@ fun ScheduleDrawer() {
 }
 
 @Composable
-fun ScheduleContent(uiState: State<EventList>) {
+fun ScheduleContent(uiState: State<EventList>, scaffoldState: ScaffoldState) {
     var eventList = uiState.value.eventList
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -100,10 +135,10 @@ fun ScheduleContent(uiState: State<EventList>) {
         InspirationCard()
         Row(horizontalArrangement = Arrangement.Center) {
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                item { EventBlank(eventList.size+1) }
+                item { EventBlank(eventList.size+1, scaffoldState) }
 
                 items(eventList.size) { item ->
-                    ScheduleItem(event = eventList[item], item)
+                    ScheduleItem(event = eventList[item], item, scaffoldState)
                     
                 }
             }
@@ -116,6 +151,7 @@ fun ScheduleContent(uiState: State<EventList>) {
 @Composable
 fun EventBlank(
     id: Int,
+    scaffoldState: ScaffoldState,
     scheduleEditViewModel: ScheduleEditViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val scope = rememberCoroutineScope()
@@ -134,17 +170,22 @@ fun EventBlank(
                     placeholderColor = Color.Black,
                     textColor = Color.Gray,
                     focusedIndicatorColor = FadedSky,
-                    unfocusedIndicatorColor = Color.LightGray
-                )
+                    unfocusedIndicatorColor = Color.LightGray,
+                ),
+                leadingIcon = { Icon(painterResource(id = R.drawable.baseline_add_task_24), "") },
             )
             IconButton(
                 onClick = {
                     scope.launch {
-                        scheduleEditViewModel.addEvent(Event(id = id, event_name = text, event_description = text, event_date = "", event_time = "", event_priority = EventPriority.ONE, event_completed = false))
+                        scheduleEditViewModel.addEvent(Event(id = id, event_name = text, event_description = text, event_date = "", event_time = "", event_priority = EventPriority.ONE, event_completed = false));
+                        scaffoldState.snackbarHostState.showSnackbar(
+                            message = "New event scheduled"
+                        )
+
                     }
 
                 },
-                content = { Icon(imageVector = Icons.Filled.Send, contentDescription = "", tint = Sky)}
+                content = { Icon(imageVector = Icons.Outlined.Send, contentDescription = "", tint = Sky) }
             )
         }
     }
@@ -156,6 +197,7 @@ fun EventBlank(
 fun ScheduleItem(
     event: Event,
     id: Int,
+    scaffoldState: ScaffoldState,
     viewModel: ScheduleEditViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     var nameText: String by remember { mutableStateOf("") }
@@ -174,18 +216,19 @@ fun ScheduleItem(
                 textColor = Color.Gray,
                 focusedIndicatorColor = FadedSky,
                 unfocusedIndicatorColor = Color.LightGray
-            )
+            ),
+            leadingIcon = { Icon(painterResource(id = R.drawable.baseline_task_alt_24), "")},
+            trailingIcon = {Icon(imageVector = Icons.Filled.Edit, contentDescription = "", tint = Sky)}
         )
         IconButton(
             onClick = {
                       scope.launch {
                           viewModel.updateEvent(Event(id = id+1, event_name = nameText, event_description = nameText, event_date = "", event_time = "", event_priority = EventPriority.ONE, event_completed = false))
+                          scaffoldState.snackbarHostState.showSnackbar(message = "Event updated")
                       }
 
             },
-            content = {
-                Image(imageVector = Icons.Outlined.Send, contentDescription = "")
-            },
+            content = {Icon(imageVector = Icons.Filled.Send, contentDescription = "", tint = Sky)},
 
         )
 

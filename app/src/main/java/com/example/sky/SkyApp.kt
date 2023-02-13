@@ -9,7 +9,10 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,10 +36,10 @@ fun SkyTopAppBar(
     title: String,
     canNavigateBack: Boolean,
     modifier: Modifier = Modifier,
-    navigateUp: () -> Unit = {}
+    navigateUp: () -> Unit = {},
+    scaffoldState: ScaffoldState
 ) {
     val scope = rememberCoroutineScope()
-    val scaffoldState = rememberScaffoldState()
 
     if (canNavigateBack) {
                 Column {
@@ -142,7 +145,17 @@ fun SkyBottomNavBar(
                 NavigationRailItem(
                     selected = false,
                     onClick = { /*TODO*/ },
+                    icon = {Icons.Outlined.ArrowBack}
+                )
+                NavigationRailItem(
+                    selected = false,
+                    onClick = { /*TODO*/ },
                     icon = {Icons.Outlined.Home}
+                )
+                NavigationRailItem(
+                    selected = false,
+                    onClick = { /*TODO*/ },
+                    icon = {Icons.Outlined.ArrowForward}
                 )
             }
         }
