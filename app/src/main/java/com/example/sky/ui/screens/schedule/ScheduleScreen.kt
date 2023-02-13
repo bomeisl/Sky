@@ -28,6 +28,7 @@ import androidx.navigation.NavHostController
 import com.example.sky.R
 import com.example.sky.SkyTopAppBar
 import com.example.sky.data.databases.schedule.Event
+import com.example.sky.data.databases.schedule.EventPriority
 import com.example.sky.ui.navigation.FloatActionButton
 import com.example.sky.ui.navigation.SkyBottomNavBar
 import com.example.sky.ui.theme.FadedSky
@@ -99,10 +100,10 @@ fun ScheduleContent(uiState: State<EventList>) {
         InspirationCard()
         Row(horizontalArrangement = Arrangement.Center) {
             LazyColumn(modifier = Modifier.fillMaxWidth()) {
-                item { EventBlank() }
+                item { EventBlank(eventList.size+1) }
 
                 items(eventList.size) { item ->
-                    ScheduleItem(event = eventList[item])
+                    ScheduleItem(event = eventList[item], item)
                     
                 }
             }
@@ -114,6 +115,7 @@ fun ScheduleContent(uiState: State<EventList>) {
 
 @Composable
 fun EventBlank(
+    id: Int,
     scheduleEditViewModel: ScheduleEditViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val scope = rememberCoroutineScope()
@@ -138,7 +140,7 @@ fun EventBlank(
             IconButton(
                 onClick = {
                     scope.launch {
-                        scheduleEditViewModel.addEvent(Event(1, text, "", "", "", false))
+                        scheduleEditViewModel.addEvent(Event(id = id, event_name = text, event_description = text, event_date = "", event_time = "", event_priority = EventPriority.ONE, event_completed = false))
                     }
 
                 },
@@ -153,19 +155,19 @@ fun EventBlank(
 @Composable
 fun ScheduleItem(
     event: Event,
+    id: Int,
     viewModel: ScheduleEditViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     var nameText: String by remember { mutableStateOf("") }
     val scope = rememberCoroutineScope()
-    var name: String by remember { mutableStateOf(event.event_name)}
-    Row(modifier = Modifier,
+     Row(modifier = Modifier,
     horizontalArrangement = Arrangement.Center) {
         TextField(
             value = nameText,
-            onValueChange = {newText -> nameText = newText; name = newText},
+            onValueChange = {newText -> nameText = newText},
             modifier = Modifier
                 .padding(start = 20.dp),
-            placeholder = { Text(text = name) },
+            placeholder = { Text(text = event.event_name) },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.White,
                 placeholderColor = Color.Black,
@@ -177,7 +179,7 @@ fun ScheduleItem(
         IconButton(
             onClick = {
                       scope.launch {
-                          viewModel.addEvent(Event(0, nameText, nameText,"","",false))
+                          viewModel.updateEvent(Event(id = id+1, event_name = nameText, event_description = nameText, event_date = "", event_time = "", event_priority = EventPriority.ONE, event_completed = false))
                       }
 
             },
@@ -214,8 +216,7 @@ fun Event(
         )
         IconButton(
             onClick = {
-
-            },
+                   },
             content = {
                 Image(imageVector = Icons.Outlined.Send, contentDescription = "")
             },

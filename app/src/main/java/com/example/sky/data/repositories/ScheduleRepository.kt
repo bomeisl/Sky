@@ -22,8 +22,9 @@ class ScheduleRepository(private val scheduleDao: ScheduleDao): ScheduleReposito
         scheduleDao.updateEvent(event)
 
 
-    override suspend fun deleteEvent(event: Event) =
+    override suspend fun deleteEvent(event: Event) {
         scheduleDao.deleteEvent(event)
+    }
 
 
 }

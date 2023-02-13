@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ScheduleDao {
 
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.ABORT)
     suspend fun newEvent(event: Event)
 
     @Update
@@ -18,7 +18,7 @@ interface ScheduleDao {
     @Query("SELECT * FROM Schedule WHERE id = :id")
     fun getEvent(id: Int): Flow<Event>
 
-    @Query("SELECT * FROM Schedule ORDER BY event_time ASC")
+    @Query("SELECT * FROM Schedule ORDER BY event_time DESC")
     fun getAllEvents(): Flow<List<Event>>
 
 
