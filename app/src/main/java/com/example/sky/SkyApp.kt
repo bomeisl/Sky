@@ -38,7 +38,7 @@ fun SkyTopAppBar(
     val scope = rememberCoroutineScope()
     val scaffoldState = rememberScaffoldState()
 
-            if (canNavigateBack) {
+    if (canNavigateBack) {
                 Column {
                     TopAppBar(
                         title = {
