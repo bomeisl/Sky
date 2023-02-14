@@ -12,7 +12,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.ArrowForward
 import androidx.compose.material.icons.outlined.Home
-import androidx.compose.material.icons.outlined.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -20,24 +19,19 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
-import com.example.sky.ui.screens.SkyNavHost
 import com.example.sky.ui.theme.ClassicBlue
 import com.example.sky.ui.theme.FadedSky
 import kotlinx.coroutines.launch
 
-@Composable
-fun SkyApp(navHostController: NavHostController = rememberNavController()) {
-    SkyNavHost(navController = navHostController)
-}
+
 @Composable
 fun SkyTopAppBar(
     title: String,
     canNavigateBack: Boolean,
     modifier: Modifier = Modifier,
     navigateUp: () -> Unit = {},
-    scaffoldState: ScaffoldState
+    scaffoldState: ScaffoldState,
+    onNavClick: () -> Unit
 ) {
     val scope = rememberCoroutineScope()
 
@@ -106,13 +100,7 @@ fun SkyTopAppBar(
                             Row() {
 
                                 IconButton(
-                                    onClick = {
-                                        scope.launch {
-                                            scaffoldState.drawerState.apply {
-                                                if (isClosed) open() else close()
-                                            }
-                                        }
-                                    },
+                                    onClick = onNavClick,
                                     modifier = Modifier,
                                     content = { Icon(Icons.Filled.Menu, "") }
                                 )

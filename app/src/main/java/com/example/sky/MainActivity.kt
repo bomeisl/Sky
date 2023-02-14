@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
+import com.example.sky.ui.screens.SkyNavHost
 import com.example.sky.ui.theme.SkyTheme
 
 
@@ -16,12 +17,13 @@ class MainActivity : ComponentActivity() {
         setContent {
             SkyTheme {
                 Surface(modifier = Modifier.fillMaxSize()) {
-                    SkyApp()
-                }
+                    SkyNavHost()
                 }
             }
+
         }
     }
+}
 
 
 

@@ -1,6 +1,7 @@
 package com.example.sky.ui.screens
 
 import androidx.compose.material.Scaffold
+import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -9,8 +10,11 @@ import com.example.sky.SkyTopAppBar
 import com.example.sky.ui.navigation.SkyBottomNavBar
 
 @Composable
-fun CheckInScreen(navController: NavController) {
-    val scaffoldState = rememberScaffoldState()
+fun CheckInScreen(
+    scaffoldState: ScaffoldState,
+    onNavClick: () -> Unit
+) {
+
     Scaffold(
         scaffoldState = scaffoldState,
         topBar = {
@@ -18,17 +22,13 @@ fun CheckInScreen(navController: NavController) {
                 title = "Sky",
                 canNavigateBack = false,
                 scaffoldState = scaffoldState,
-                navigateUp = {}
+                navigateUp = {},
+                onNavClick = onNavClick
             )
         },
         bottomBar = { SkyBottomNavBar() },
         content = {
-            CheckInScreen(navController = navController)
+            //CheckInContent()
         }
     )
-}
-
-@Composable
-fun CheckInScreen() {
-    
 }

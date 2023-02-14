@@ -20,7 +20,7 @@ import androidx.navigation.NavController
 
 
 @Composable
-fun JournalScreen(navController: NavController) {
+fun JournalScreen() {
     var text by remember { mutableStateOf("") }
     Row() {
         TextField(
