@@ -24,7 +24,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavHostController
 import com.example.sky.R
 import com.example.sky.SkyTopAppBar
 import com.example.sky.data.databases.schedule.Event
@@ -35,7 +34,6 @@ import com.example.sky.viewModels.AppViewModelProvider
 import com.example.sky.viewModels.schedule.EventList
 import com.example.sky.viewModels.schedule.ScheduleEditViewModel
 import com.example.sky.viewModels.schedule.ScheduleViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
@@ -49,7 +47,7 @@ fun ScheduleScreen(
 
     Scaffold(
         scaffoldState = scaffoldState,
-        topBar = { SkyTopAppBar("Sky",false, Modifier , {}, scaffoldState, onNavClick) },
+        topBar = { SkyTopAppBar("Sky",false, Modifier , {}, scaffoldState, onNavClick, "a scheduled event") },
         content = { ScheduleContent(uiState, scaffoldState) },
         bottomBar = { SkyBottomNavBar() }
     )
@@ -189,7 +187,7 @@ fun DrawerContent(
                 .padding(bottom = 50.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Banner("Morning")
+            Banner()
             InspirationCard()
             Row(horizontalArrangement = Arrangement.Center) {
                 LazyColumn(modifier = Modifier.fillMaxWidth()) {
@@ -233,7 +231,8 @@ fun DrawerContent(
                     leadingIcon = {
                         Icon(
                             painterResource(id = R.drawable.baseline_add_task_24),
-                            ""
+                            "",
+                            tint = Sky
                         )
                     },
                 )
@@ -250,9 +249,10 @@ fun DrawerContent(
                                     event_priority = EventPriority.ONE,
                                     event_completed = false
                                 )
-                            );
+                            )
+                            text = ""
                             scaffoldState.snackbarHostState.showSnackbar(
-                                message = "New event scheduled"
+                                message = "New event scheduled!"
                             )
 
                         }
@@ -382,7 +382,7 @@ fun DrawerContent(
                                 event_completed = false
                             )
                         )
-                        scaffoldState.snackbarHostState.showSnackbar(message = "Event updated")
+                        scaffoldState.snackbarHostState.showSnackbar(message = "Event updated (${event.event_name})")
                     }
 
                 },
@@ -478,16 +478,19 @@ fun DrawerContent(
     }
 
     @Composable
-    fun Banner(timeOfDay: String) {
+    fun Banner() {
+        //val time: Int by remember { mutableStateOf(LocalTime.now().hour)}
+        val time = 17
         Box(contentAlignment = Alignment.Center) {
-            BannerImage(timeOfDay)
-            BannerText(timeOfDay)
+            BannerImage(time)
+            BannerText(time)
         }
     }
 
     @Composable
-    fun BannerImage(timeOfDay: String) {
-        if (timeOfDay == "Morning") {
+    fun BannerImage(time: Int) {
+
+        if ((time >= 5) and (time < 12)) {
 
             Image(
                 painter = painterResource(id = R.drawable.morning_sky),
@@ -500,7 +503,7 @@ fun DrawerContent(
 
 
         }
-        if (timeOfDay == "Afternoon") {
+        if ((time >= 12) and (time < 17)) {
 
             Image(
                 painter = painterResource(id = R.drawable.afternoon_sky),
@@ -512,7 +515,7 @@ fun DrawerContent(
             )
 
         }
-        if (timeOfDay == "Evening") {
+        if ((time >= 17) and (time < 20)) {
 
             Image(
                 painter = painterResource(id = R.drawable.evening_sky),
@@ -524,7 +527,7 @@ fun DrawerContent(
             )
 
         }
-        if (timeOfDay == "Night") {
+        if ((time >= 20) or (time < 5)) {
 
             Image(
                 painter = painterResource(id = R.drawable.night),
@@ -539,37 +542,37 @@ fun DrawerContent(
     }
 
     @Composable
-    fun BannerText(timeOfDay: String) {
-        if (timeOfDay == "Morning") {
+    fun BannerText(time: Int) {
+        if ( (time >= 5) and (time < 12) ) {
             Text(
-                text = "Good $timeOfDay Claire", color = Color.Black,
+                text = "Good Morning Claire", color = Color.Black,
                 fontSize = 50.sp,
                 fontFamily = FontFamily.Cursive,
                 fontWeight = FontWeight.Black,
                 textAlign = TextAlign.Center
             )
         }
-        if (timeOfDay == "Afternoon") {
+        if ((time >= 12) and (time < 17)) {
             Text(
-                text = "Have a Wonderful $timeOfDay Claire :)", color = Color.White,
+                text = "Have a Wonderful Afternoon Claire :)", color = Color.White,
                 fontSize = 50.sp,
                 fontFamily = FontFamily.Cursive,
                 fontWeight = FontWeight.Black,
                 textAlign = TextAlign.Center
             )
         }
-        if (timeOfDay == "Evening") {
+        if ((time >= 17 ) and (time < 20)) {
             Text(
-                text = "Good $timeOfDay Claire :)", color = Color.White,
+                text = "Good Evening Claire :)", color = Color.White,
                 fontSize = 50.sp,
                 fontFamily = FontFamily.Cursive,
                 fontWeight = FontWeight.Black,
                 textAlign = TextAlign.Center
             )
         }
-        if (timeOfDay == "Night") {
+        if ((time < 5) or (time >= 20)) {
             Text(
-                text = "Good $timeOfDay Claire, Sleep Well :)", color = Color.White,
+                text = "Good Night Claire, Sleep Well :)", color = Color.White,
                 fontSize = 50.sp,
                 fontFamily = FontFamily.Cursive,
                 fontWeight = FontWeight.Black,

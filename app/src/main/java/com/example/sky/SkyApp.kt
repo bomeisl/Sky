@@ -31,7 +31,8 @@ fun SkyTopAppBar(
     modifier: Modifier = Modifier,
     navigateUp: () -> Unit = {},
     scaffoldState: ScaffoldState,
-    onNavClick: () -> Unit
+    onNavClick: () -> Unit,
+    searchItem: String
 ) {
     val scope = rememberCoroutineScope()
 
@@ -78,7 +79,7 @@ fun SkyTopAppBar(
                             }
                         }
                     )
-                    SearchBar()
+                    SearchBar(searchItem)
                 }
             } else {
                 Column() {
@@ -107,7 +108,7 @@ fun SkyTopAppBar(
                             }
                         }
                     )
-                    SearchBar()
+                    SearchBar(searchItem)
                 }
         }
 
@@ -153,6 +154,7 @@ fun SkyBottomNavBar(
 
 @Composable
 fun SearchBar(
+    searchItem: String
 ) {
     var text: String by remember { mutableStateOf("") }
 
@@ -165,7 +167,7 @@ fun SearchBar(
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = FadedSky
         ),
-        placeholder = { Text(text = "Search for a scheduled event", fontSize = 20.sp)},
+        placeholder = { Text(text = "Search for $searchItem", fontSize = 20.sp)},
         trailingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "")}
     )
 

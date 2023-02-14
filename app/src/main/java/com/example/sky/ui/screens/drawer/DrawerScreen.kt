@@ -58,10 +58,10 @@ fun DrawerScreen(
             }
             Box() {
                 Image(
-                    painter = painterResource(id = R.drawable.sky_logo_final),
+                    painter = painterResource(id = R.drawable.menu_back),
                     contentDescription = "",
                     contentScale = ContentScale.Crop,
-                    alpha = 1F
+                    alpha = .8F
                 )
                 Column(
                     Modifier
@@ -114,7 +114,7 @@ fun DrawerItem(
         Modifier
             .fillMaxWidth()
             .padding(10.dp),
-        horizontalArrangement = Arrangement.Center
+        horizontalArrangement = Arrangement.Center,
     ) {
         IconButton(onClick = onItemClick ) {
             Row(
@@ -130,8 +130,10 @@ fun DrawerItem(
                 Text(
                     text = text,
                     color = Color.White,
-                    fontSize = 30.sp,
-                    textAlign = TextAlign.Center
+                    fontSize = 40.sp,
+                    textAlign = TextAlign.Center,
+                    fontFamily = FontFamily.Default,
+                    fontWeight = FontWeight.Light
                 )
             }
         }

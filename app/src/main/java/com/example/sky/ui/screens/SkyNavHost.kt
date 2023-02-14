@@ -1,19 +1,15 @@
 package com.example.sky.ui.screens
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.material.ScaffoldState
-import androidx.compose.material.Text
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.graphics.Color
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.sky.ui.screens.drawer.DrawerScreen
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 
 @Composable
 fun SkyNavHost(
@@ -24,7 +20,7 @@ fun SkyNavHost(
 
     NavHost(
             navController = navController,
-            startDestination = "schedule"
+            startDestination = "drawer"
         ) {
 
             composable("drawer") {
