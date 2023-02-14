@@ -3,29 +3,27 @@ package com.example.sky.ui.screens
 import android.annotation.SuppressLint
 import android.graphics.fonts.FontStyle
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.material.icons.outlined.ArrowBack
-import androidx.compose.material.icons.outlined.ArrowForward
+import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Send
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.sky.R
@@ -36,13 +34,13 @@ import com.example.sky.ui.navigation.FloatActionButton
 import com.example.sky.ui.navigation.SkyBottomNavBar
 import com.example.sky.ui.theme.ClassicBlue
 import com.example.sky.ui.theme.FadedSky
-import com.example.sky.ui.theme.MidSky
 import com.example.sky.ui.theme.Sky
 import com.example.sky.viewModels.AppViewModelProvider
 import com.example.sky.viewModels.schedule.EventList
 import com.example.sky.viewModels.schedule.ScheduleEditViewModel
 import com.example.sky.viewModels.schedule.ScheduleViewModel
 import kotlinx.coroutines.launch
+import org.intellij.lang.annotations.JdkConstants.HorizontalAlignment
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
@@ -51,7 +49,7 @@ fun ScheduleScreen(
     viewModel: ScheduleViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
     val uiState = viewModel.scheduleUiState.collectAsState()
-    var scaffoldState: ScaffoldState = rememberScaffoldState()
+    val scaffoldState: ScaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
 
     Scaffold(
@@ -60,52 +58,119 @@ fun ScheduleScreen(
         content = { ScheduleContent(uiState, scaffoldState) },
         bottomBar = { SkyBottomNavBar() },
         drawerContent = {
+            Column(
+                Modifier
+                    .fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            )
+            {
+                Surface(
+                    elevation = 15.dp
+                ) {
+                    Column() {
 
-            Icon(imageVector = Icons.Outlined.Home, contentDescription = "")
+                        Row(
+                            Modifier
+                                .background(ClassicBlue)
+                                .fillMaxWidth()
+                                .padding(20.dp)
+                                .align(Alignment.CenterHorizontally)
+                        ) {
+                            Text(
+                                text = "Sky",
+                                fontWeight = FontWeight.Black,
+                                fontFamily = FontFamily.Cursive,
+                                fontSize = 40.sp,
+                                textAlign = TextAlign.Center
+                            )
 
-        },
-        drawerGesturesEnabled = true,
-        floatingActionButton = {
-            Column(verticalArrangement = Arrangement.Center) {
 
-
-                Row(verticalAlignment = Alignment.CenterVertically) {
-
-                    FloatingActionButton(
-                        onClick = {},
-                        shape = RectangleShape,
-                        backgroundColor = ClassicBlue,
-                        elevation = FloatingActionButtonDefaults.elevation(10.dp)
-                    ) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-
-                            Icon(Icons.Filled.ArrowBack, "")
-                            Text(text = "Yesterday")
                         }
-                    }
-                    Spacer(modifier = Modifier.width(235.dp))
-                    FloatingActionButton(
-                        onClick = {},
-                        shape = RectangleShape,
-                        backgroundColor = ClassicBlue,
-                        elevation = FloatingActionButtonDefaults.elevation(10.dp)
-                    ) {
-                        Column(horizontalAlignment = Alignment.CenterHorizontally) {
 
-                            Icon(Icons.Filled.ArrowForward, "")
-                            Text(text = "Tomorrow")
+
+                        Row(
+                            Modifier
+                                .fillMaxWidth()
+                                .align(Alignment.CenterHorizontally)
+                                .padding(0.dp)
+                                .background(FadedSky),
+                            horizontalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                text = "Where to?",
+                                color = Color.DarkGray,
+                                fontSize = 45.sp,
+                                fontFamily = FontFamily.Cursive
+                            )
+
                         }
                     }
                 }
+            }
+            Column(Modifier
+                .fillMaxSize(),
+                verticalArrangement = Arrangement.Center) {
+
+                Divider(color = Sky, thickness = 1.dp)
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp)
+                        .align(Alignment.CenterHorizontally),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Home,
+                        contentDescription = "",
+                        tint = Color.Gray
+                    )
+                    Text(
+                        text = "Home",
+                        color = Color.Gray,
+                        fontSize = 20.sp,
+                        textAlign = TextAlign.Center
+                    )
+                }
+                Divider(color = Sky, thickness = 1.dp)
+
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp)
+                        .align(Alignment.CenterHorizontally),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.icons8_journal_50),
+                        contentDescription = "",
+                        tint = Color.Gray
+                    )
+                    Text(text = "Journal", color = Color.Gray, fontSize = 20.sp)
+                }
+                Divider(color = Sky, thickness = 1.dp)
+
+                Row(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp)
+                        .align(Alignment.CenterHorizontally),
+                    horizontalArrangement = Arrangement.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.Check,
+                        contentDescription = "",
+                        tint = Color.Gray
+                    )
+                    Text(text = "Check In", color = Color.Gray, fontSize = 20.sp)
+                }
+                Divider(color = Sky, thickness = 1.dp)
 
             }
         },
-
+        drawerGesturesEnabled = true,
 
     )
 }
-
-
 
 @Composable
 fun ScheduleActionButton() {
@@ -125,6 +190,8 @@ fun onScheduleFloatButtonClicked() {
 fun ScheduleDrawer() {
 
 }
+
+
 
 @Composable
 fun ScheduleContent(uiState: State<EventList>, scaffoldState: ScaffoldState) {
@@ -164,7 +231,7 @@ fun EventBlank(
                 onValueChange = { newText -> text = newText },
                 modifier = Modifier
                     .padding(start = 20.dp),
-                placeholder = { Text(text = "Ex: 'Climb a tree' or 'Have breakfast'") },
+                placeholder = { Text(text = "Ex: 'Have Breakfast'", fontSize = 20.sp) },
                 colors = TextFieldDefaults.textFieldColors(
                     backgroundColor = Color.White,
                     placeholderColor = Color.Black,
@@ -209,7 +276,7 @@ fun ScheduleItem(
             onValueChange = {newText -> nameText = newText},
             modifier = Modifier
                 .padding(start = 20.dp),
-            placeholder = { Text(text = event.event_name) },
+            placeholder = { Text(text = event.event_name, fontSize = 20.sp) },
             colors = TextFieldDefaults.textFieldColors(
                 backgroundColor = Color.White,
                 placeholderColor = Color.Black,
@@ -217,9 +284,47 @@ fun ScheduleItem(
                 focusedIndicatorColor = FadedSky,
                 unfocusedIndicatorColor = Color.LightGray
             ),
-            leadingIcon = { Icon(painterResource(id = R.drawable.baseline_task_alt_24), "")},
-            trailingIcon = {Icon(imageVector = Icons.Filled.Edit, contentDescription = "", tint = Sky)}
+            leadingIcon = {
+
+                if (!event.event_completed) {
+                    IconButton(
+                        onClick = {
+                                  scope.launch {
+                                      viewModel.updateEvent(event = Event(event.id,
+                                          event_name = event.event_name,
+                                          event_description = event.event_description,
+                                          event_date = event.event_date,
+                                          event_time = event.event_time,
+                                          event_completed = !event.event_completed,
+                                          event_priority = event.event_priority
+                                      ))
+                                  }
+                                  },
+                        content = {Icon(painterResource(id = R.drawable.baseline_task_alt_24), "", tint = Color.Gray)}
+                            )
+                }
+                if (event.event_completed) {
+                    IconButton(
+                        onClick = {
+                            scope.launch {
+                                viewModel.updateEvent(event = Event(event.id,
+                                    event_name = event.event_name,
+                                    event_description = event.event_description,
+                                    event_date = event.event_date,
+                                    event_time = event.event_time,
+                                    event_completed = !event.event_completed,
+                                    event_priority = event.event_priority
+                                ))
+                            }
+                                  },
+                        content = {Icon(painterResource(id = R.drawable.baseline_task_alt_24), "", tint = Color.Green)}
+                    )
+                }
+            },
+
+            trailingIcon = { Icon(imageVector = Icons.Filled.Edit, contentDescription = "", tint = Sky) }
         )
+
         IconButton(
             onClick = {
                       scope.launch {
@@ -231,7 +336,15 @@ fun ScheduleItem(
             content = {Icon(imageVector = Icons.Filled.Send, contentDescription = "", tint = Sky)},
 
         )
-
+         IconButton(
+             onClick = {
+                 scope.launch {
+                     viewModel.deleteEvent(event)
+                     scaffoldState.snackbarHostState.showSnackbar(message = "Event removed")
+                 }
+             },
+             content = {Icon(painterResource(id = R.drawable.baseline_delete_24), "", tint = Color.Red)},
+             )
     }
 }
 
