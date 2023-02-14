@@ -123,7 +123,8 @@ fun SkyTopAppBar(
 fun SkyBottomNavBar(
     canNavigateBack: Boolean,
     modifier: Modifier = Modifier,
-    navigateUp: () -> Unit = {}
+    navigateBack: () -> Unit,
+    navigateHome: () -> Unit
 ) {
     if (canNavigateBack) {
         BottomAppBar(
@@ -167,7 +168,7 @@ fun SearchBar(
         colors = TextFieldDefaults.textFieldColors(
             backgroundColor = FadedSky
         ),
-        placeholder = { Text(text = "Search for $searchItem", fontSize = 20.sp)},
+        placeholder = { Text(text = "$searchItem", fontSize = 20.sp)},
         trailingIcon = { Icon(imageVector = Icons.Filled.Search, contentDescription = "")}
     )
 

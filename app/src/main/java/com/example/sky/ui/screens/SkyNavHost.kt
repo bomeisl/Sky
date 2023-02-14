@@ -1,5 +1,6 @@
 package com.example.sky.ui.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.material.ScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.Composable
@@ -11,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.sky.ui.screens.drawer.DrawerScreen
 import kotlinx.coroutines.CoroutineScope
 
+@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
 @Composable
 fun SkyNavHost(
     scope: CoroutineScope = rememberCoroutineScope(),
@@ -18,7 +20,7 @@ fun SkyNavHost(
     scaffoldState: ScaffoldState = rememberScaffoldState()
 ) {
 
-    NavHost(
+        NavHost(
             navController = navController,
             startDestination = "drawer"
         ) {
@@ -29,7 +31,7 @@ fun SkyNavHost(
                     onJournalNav = { navController.navigate("journal") },
                     onScheduleNav = { navController.navigate("schedule") },
 
-                )
+                    )
             }
 
             composable("schedule") {
@@ -58,4 +60,4 @@ fun SkyNavHost(
 
 
         }
-}
+    }

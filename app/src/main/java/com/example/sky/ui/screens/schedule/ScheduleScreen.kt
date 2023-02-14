@@ -47,7 +47,7 @@ fun ScheduleScreen(
 
     Scaffold(
         scaffoldState = scaffoldState,
-        topBar = { SkyTopAppBar("Sky",false, Modifier , {}, scaffoldState, onNavClick, "a scheduled event") },
+        topBar = { SkyTopAppBar("Sky",false, Modifier , {}, scaffoldState, onNavClick, "Search for a scheduled event") },
         content = { ScheduleContent(uiState, scaffoldState) },
         bottomBar = { SkyBottomNavBar() }
     )
