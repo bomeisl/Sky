@@ -1,8 +1,8 @@
-package com.example.sky.viewModels.schedule
+package com.example.sky.ui.viewModels.schedule
 
 import androidx.lifecycle.ViewModel
 import com.example.sky.data.databases.schedule.Event
-import com.example.sky.data.repositories.ScheduleRepository
+import com.example.sky.data.repositories.schedule.ScheduleRepository
 
 class ScheduleEditViewModel(private val scheduleRepository: ScheduleRepository): ViewModel() {
 

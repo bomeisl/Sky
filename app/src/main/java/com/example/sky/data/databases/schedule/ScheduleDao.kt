@@ -21,5 +21,4 @@ interface ScheduleDao {
     @Query("SELECT * FROM Schedule ORDER BY event_time DESC")
     fun getAllEvents(): Flow<List<Event>>
 
-
 }

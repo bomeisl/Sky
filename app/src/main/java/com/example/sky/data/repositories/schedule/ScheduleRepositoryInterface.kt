@@ -1,4 +1,4 @@
-package com.example.sky.data.repositories
+package com.example.sky.data.repositories.schedule
 
 import com.example.sky.data.databases.schedule.Event
 import kotlinx.coroutines.flow.Flow

@@ -1,4 +1,4 @@
-package com.example.sky.data.repositories
+package com.example.sky.data.repositories.schedule
 
 import com.example.sky.data.databases.schedule.Event
 import com.example.sky.data.databases.schedule.ScheduleDao
@@ -25,6 +25,5 @@ class ScheduleRepository(private val scheduleDao: ScheduleDao): ScheduleReposito
     override suspend fun deleteEvent(event: Event) {
         scheduleDao.deleteEvent(event)
     }
-
 
 }

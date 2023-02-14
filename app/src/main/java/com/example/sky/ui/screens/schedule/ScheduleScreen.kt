@@ -30,10 +30,10 @@ import com.example.sky.data.databases.schedule.Event
 import com.example.sky.data.databases.schedule.EventPriority
 import com.example.sky.ui.navigation.SkyBottomNavBar
 import com.example.sky.ui.theme.*
-import com.example.sky.viewModels.AppViewModelProvider
-import com.example.sky.viewModels.schedule.EventList
-import com.example.sky.viewModels.schedule.ScheduleEditViewModel
-import com.example.sky.viewModels.schedule.ScheduleViewModel
+import com.example.sky.ui.viewModels.AppViewModelProvider
+import com.example.sky.ui.viewModels.schedule.EventList
+import com.example.sky.ui.viewModels.schedule.ScheduleEditViewModel
+import com.example.sky.ui.viewModels.schedule.ScheduleViewModel
 import kotlinx.coroutines.launch
 
 @SuppressLint("UnusedMaterialScaffoldPaddingParameter")

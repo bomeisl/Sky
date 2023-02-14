@@ -1,9 +1,9 @@
-package com.example.sky.viewModels.schedule
+package com.example.sky.ui.viewModels.schedule
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.sky.data.databases.schedule.Event
-import com.example.sky.data.repositories.ScheduleRepository
+import com.example.sky.data.repositories.schedule.ScheduleRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
