@@ -16,9 +16,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SkyTheme {
-                Surface(modifier = Modifier.fillMaxSize()) {
                     SkyNavHost()
-                }
+
             }
 
         }
